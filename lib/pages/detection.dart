@@ -25,7 +25,7 @@ class _DetectionPageState extends State<DetectionPage> {
 
   loadmodel() async {
     await Tflite.loadModel(
-        model: 'assets/model_unquant.tflite', labels: 'assets/labels.txt');
+        model: 'assets/model.tflite', labels: 'assets/labels.txt');
   }
 
   @override
@@ -83,12 +83,15 @@ class _DetectionPageState extends State<DetectionPage> {
   Column details() {
     return Column(
       children: [
-        Text(
-          _output![0]['label'].toString(),
-          style: const TextStyle(
-            color: Colors.purple,
-            fontSize: 48,
-            fontWeight: FontWeight.bold,
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Text(
+            _output![0]['label'].toString(),
+            style: const TextStyle(
+              color: Colors.purple,
+              fontSize: 48,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         for (int i = 0; i < _output!.length; i++)

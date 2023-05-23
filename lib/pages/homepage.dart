@@ -48,8 +48,9 @@ class Homepage extends StatelessWidget {
                     } else {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) =>
-                              DetectionPage(image: File(image.path)),
+                          builder: (context) => DetectionPage(
+                            image: File(image.path),
+                          ),
                         ),
                       );
                     }
