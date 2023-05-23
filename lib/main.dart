@@ -16,9 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         textTheme: Typography.blackMountainView
       ),
-      home: const Scaffold(
-        body: Homepage(),
-      ),
+      home: const Homepage(),
     );
   }
 }
