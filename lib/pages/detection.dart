@@ -106,12 +106,16 @@ class _DetectionPageState extends State<DetectionPage> {
       children: [
         Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Text(
-            healthy ? "Healthy Leaf" : "Bacterial Spots",
-            style: const TextStyle(
-              color: Colors.purple,
-              fontSize: 48,
-              fontWeight: FontWeight.bold,
+          child: FittedBox(
+            fit: BoxFit.contain,
+            child: Text(
+              healthy ? "Healthy Leaf" : "Bacterial Spots",
+              maxLines: 1,
+              style: const TextStyle(
+                color: Colors.purple,
+                fontSize: 100,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
