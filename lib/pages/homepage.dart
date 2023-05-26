@@ -18,11 +18,12 @@ class Homepage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Peach Leaf Detection",
-          style: TextStyle(
-            fontSize: 28,
+          title: const Text(
+            "Peach Leaf Detection",
+            style: TextStyle(
+              fontSize: 28,
+            ),
           ),
-        ),
           centerTitle: true,
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
@@ -82,54 +83,52 @@ class Homepage extends StatelessWidget {
                     color: Color.fromRGBO(158, 158, 158, 0.3),
                   ),
                 ),
-                Column(
-                  children: [
-                    InkWell(
-                      onTap: () async {
-                        final image = await ImagePicker()
-                            .pickImage(source: ImageSource.camera);
+                InkWell(
+                  onTap: () async {
+                    final image = await ImagePicker()
+                        .pickImage(source: ImageSource.camera);
 
-                        if (image == null) {
-                          Fluttertoast.showToast(
-                              msg: "No Images have been Selected");
-                        } else {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  DetectionPage(image: File(image.path)),
-                            ),
-                          );
-                        }
-                      },
-                      child: Lottie.asset(
+                    if (image == null) {
+                      Fluttertoast.showToast(
+                          msg: "No Images have been Selected");
+                    } else {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DetectionPage(image: File(image.path)),
+                        ),
+                      );
+                    }
+                  },
+                  child: Column(
+                    children: [
+                      Lottie.asset(
                         "assets/camera.json",
                         width: MediaQuery.of(context).size.width / 3,
                         height: MediaQuery.of(context).size.width / 3,
                       ),
-                    ),
-                    const Text(
-                      "Take A Photo",
-                      style: TextStyle(
-                        color: Colors.grey,
+                      const Text(
+                        "Take A Photo",
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(
-                      color: Colors.grey,
-                    ),
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                  border: Border.all(
+                    color: Colors.grey,
                   ),
-                  width: double.infinity,
-                  child: instructions(),
                 ),
+                width: double.infinity,
+                child: instructions(),
               ),
             ),
             const Text(
