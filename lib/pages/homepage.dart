@@ -18,7 +18,11 @@ class Homepage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Peach Leaf Detection"),
+          title: const Text("Peach Leaf Detection",
+          style: TextStyle(
+            fontSize: 28,
+          ),
+        ),
           centerTitle: true,
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,

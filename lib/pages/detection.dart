@@ -15,7 +15,10 @@ class _DetectionPageState extends State<DetectionPage> {
   List? _output;
 
   detection() async {
-    var prediction = await Tflite.runModelOnImage(path: widget.image.path);
+    var prediction = await Tflite.runModelOnImage(
+      path: widget.image.path,
+      numResults: 2,
+    );
 
     setState(() {
       _output = prediction;
@@ -25,13 +28,17 @@ class _DetectionPageState extends State<DetectionPage> {
 
   loadmodel() async {
     await Tflite.loadModel(
-        model: 'assets/model.tflite', labels: 'assets/labels.txt');
+      model: 'assets/model.tflite',
+      labels: 'assets/labels.txt',
+      numThreads: 2,
+    );
   }
 
   @override
   void initState() {
     super.initState();
     _isLoading = true;
+    loadmodel();
     detection();
   }
 
@@ -44,10 +51,16 @@ class _DetectionPageState extends State<DetectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Peach Leaf Detection"),
+        title: const Text(
+          "Peach Leaf Detection",
+          style: TextStyle(
+            fontSize: 28,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
+        automaticallyImplyLeading: false,
       ),
       body: SafeArea(
         child: Column(
@@ -67,12 +80,20 @@ class _DetectionPageState extends State<DetectionPage> {
                 color: Color.fromRGBO(158, 158, 158, 0.3),
               ),
             ),
-            _isLoading ? const CircularProgressIndicator.adaptive() : details(),
+            _isLoading
+                ? const CircularProgressIndicator.adaptive()
+                : details(_output![0]['label'].toString() == "Healthy"),
+            Expanded(
+              child: Container(),
+            ),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: const Text("Go Back"),
+            ),
+            Expanded(
+              child: Container(),
             ),
           ],
         ),
@@ -80,13 +101,13 @@ class _DetectionPageState extends State<DetectionPage> {
     );
   }
 
-  Column details() {
+  Column details(bool healthy) {
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: Text(
-            _output![0]['label'].toString(),
+            healthy ? "Healthy Leaf" : "Bacterial Spots",
             style: const TextStyle(
               color: Colors.purple,
               fontSize: 48,
@@ -94,12 +115,18 @@ class _DetectionPageState extends State<DetectionPage> {
             ),
           ),
         ),
+        Text(
+          healthy
+              ? "No Bacterial Spot found in your Picture"
+              : "Bacterial Spots found in your Picture",
+        ),
+        const Text("Confidence of each detection:"),
         for (int i = 0; i < _output!.length; i++)
           Text(
-            "${_output![i]['label']} = ${_output![i]['confidence'].toString().substring(0, 5)}%",
+            "${_output![i]['label']} = ${_output![i]['confidence'].toString().substring(2, 4)}%",
             style: const TextStyle(
               fontFamily: "Segoe UI",
-              fontSize: 28,
+              fontSize: 14,
             ),
           ),
       ],
